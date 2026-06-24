@@ -1,29 +1,31 @@
-admin_data = {
-    "username": "@admin1",
-    "password": "&admin1"
-}
-employees_data = {}
-travelers_data = {}
+from src.Traveler_src import *
 
 # start panel
 
-while True:
-    user_input = int(input("""
-    Welcome!
-    1. Admin
-    2. Employee
-    3. Traveler
-    4. Exit!
-    -------------------------
-    Your choice? 
-    """))
-    match user_input:
+def main():
+    while True:
+        user_input_main = input(dedent("""
+        Welcome!
+        1. Admin
+        2. Employee
+        3. Traveler
+        4. Exit
+        -------------------------
+        Your choice? """)).strip()
 
-        case 1:
-            pass
-        case 2:
-            pass
-        case 3:
-            pass
-        case 4:
-            break
+        match user_input_main:
+            case "1":
+                pass
+            case "2":
+                pass
+            case "3":
+                traveler_panel()
+            case "4":
+                print("Goodbye!")
+                break
+            case _:
+                print("Invalid number")
+
+
+if __name__ == "__main__":
+    main()

@@ -303,7 +303,7 @@ def show_lines():
         for line in lines.values():
             print(line)
         print("\n" * 2)
-        input(f"{BLUE}press Enter to back main menu{RESET}")
+        input(f"{BLUE}Press Enter to back main menu{RESET}")
         return emp_panel()
     else:
         print(f"{RED}There is no line to show ! {RESET}")
@@ -592,7 +592,7 @@ def show_trains():
         for train in trains.values():
             print(train)
         print("\n" * 2)
-        input(f"{BLUE}press Enter to back main menu{RESET}")
+        input(f"{BLUE}Press Enter to back main menu{RESET}")
         return emp_panel()
     else:
         print(f"{RED}There is no Train to show ! {RESET}")

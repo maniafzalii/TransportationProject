@@ -4,7 +4,7 @@ RESET = '\033[0m'
 RED = '\033[91m'
 
 def validate_password(password):
-    pattern = r"^(?=.*[@&])(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9@&]*$"
+    pattern = r"^(?=.*[@&])(?=.*[0-9])(?=.*[a-zA-Z]).*$"
     if re.match(pattern, password):
         return True
 

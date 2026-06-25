@@ -1,8 +1,25 @@
 from src.Traveler_src import *
-
+from Manager import Manager
+from textwrap import dedent
 # start panel
 
 def main():
+
+    print("----- Define Manager Username and Password -----")
+    print("----- Be Carefull Username and Password can be contain alphabet,numbers,@,& -----")
+
+    managerDefined=True
+    username=input("Username ")
+    password=input("Password ")
+    manager=Manager(username,password)
+    while managerDefined:
+        if(manager.user is None)or( manager.password is None):
+           print("Re Enter Username and Password")
+           username=input("Username ")
+           password=input("Password ")
+           manager=Manager(username,password)
+        else:
+           managerDefined=False
     while True:
         user_input_main = input(dedent("""
         Welcome!
@@ -15,7 +32,7 @@ def main():
 
         match user_input_main:
             case "1":
-                pass
+                manager.manage_panel()
             case "2":
                 pass
             case "3":

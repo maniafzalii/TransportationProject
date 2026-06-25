@@ -1,5 +1,6 @@
 class Train():
-    def __init__(self, name, move_line, speed: int, waiting_time: int, stars, ticket_price: int, capacity: int , id : int):
+    def __init__(self, name, move_line, speed: int, waiting_time: int, stars, ticket_price: int, capacity: int,
+                 id: int):
         self.name = name
         self.moveline = move_line
         self.speed = speed

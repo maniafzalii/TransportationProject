@@ -1,8 +1,14 @@
 from src.Traveler_src import *
+<<<<<<< HEAD
 from textwrap import dedent
 from Applicant import Applicant
 from Manager import Manager
 from Employee import Employee
+=======
+from src.Manager import Manager
+from textwrap import dedent
+from shayan.Employee_panel import *
+>>>>>>> 36123e6722efe9a05ea64ee143a37157ff25f774
 # start panel
 
 
@@ -34,6 +40,7 @@ def main():
 
         match user_input_main:
             case "1":
+<<<<<<< HEAD
                 managerValidated=False
                 while not(managerValidated):
                     print("----- Enter Username and Password to Enter as Manager -----")
@@ -103,6 +110,11 @@ def main():
                       print(f"Error : {ex}")
 
                  
+=======
+                pass
+            case "2":
+                emp_panel()
+>>>>>>> 36123e6722efe9a05ea64ee143a37157ff25f774
             case "3":
                 traveler_panel()
             case "4":

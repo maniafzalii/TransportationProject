@@ -591,4 +591,3 @@ def show_trains():
 def main_menu():
     pass
 
-emp_panel()

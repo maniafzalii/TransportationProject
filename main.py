@@ -1,6 +1,7 @@
 from src.Traveler_src import *
 from src.Manager import Manager
 from textwrap import dedent
+from shayan.Employee_panel import *
 # start panel
 
 
@@ -35,7 +36,7 @@ def main():
             case "1":
                 pass
             case "2":
-                pass
+                emp_panel()
             case "3":
                 traveler_panel()
             case "4":

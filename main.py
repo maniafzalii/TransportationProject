@@ -1,5 +1,5 @@
 from src.Traveler_src import *
-from Manager import Manager
+from src.Manager import Manager
 from textwrap import dedent
 # start panel
 
@@ -33,8 +33,7 @@ def main():
 
         match user_input_main:
             case "1":
-                
-                 
+                pass
             case "2":
                 pass
             case "3":

@@ -61,7 +61,8 @@ class Manager(Applicant):
                 print("----- Exit Manager Pannel -----")  
                 ManagerMode=False
             else:
-                print("----- Invalide Managing Action -----")              
+                print("----- Invalide Managing Action -----")   
+
             
           
 
@@ -118,23 +119,33 @@ class Manager(Applicant):
                 print(f"E-mail {emp.email} Exists,choose different E-mail and try again!")
                 return False
         return True  
-
+    #get username and password if employee is exist in list return true 
     def validate_employee(self,username,password):
+        if len(self.employees)==0:
+            print("Employee List is Empty")
+            return False
         if not(isinstance(username,str)) or not(isinstance(password,str)):
             print("Username and Password must be String")
             return False  
         findEmployee=False
-        idx=-1
         for emp in self.employees:
             if emp.user==username and emp.password==password:
                 findEmployee=True
-                idx=self.employees.index(emp)
                 break
         if findEmployee:
-            return idx
+            return True
         else :
-            return None
-           
+            return False
+    #get username and return employee from employee list
+    def get_Employee_By_Username(self,username):
+        if len(self.employees)==0:
+            print("Employee List is Empty")
+            return False   
+        for emp in self.employees:
+            if emp.user==username:
+                print("Employee :")
+                return emp
+        return None     
 
     #return list of employees
     def getEmployees(self):

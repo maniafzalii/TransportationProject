@@ -3,6 +3,7 @@ from Manager import Manager
 from textwrap import dedent
 # start panel
 
+
 def main():
 
     print("----- Define Manager Username and Password -----")
@@ -32,7 +33,8 @@ def main():
 
         match user_input_main:
             case "1":
-                manager.manage_panel()
+                
+                 
             case "2":
                 pass
             case "3":

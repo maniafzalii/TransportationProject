@@ -9,6 +9,25 @@ class Manager(Applicant):
         super().__init__(user, password)    
         self.employees=[]
     
+    #validate username and password with manager to allow entrance
+    def validate_entrance(self,username,password):
+        if not(isinstance(username,str)) or not(isinstance(password,str)):
+            print("Username and Password must be String")
+            return False
+        if self.user!=username and self.password!=password:
+            print("Username and Password Not Match Manager !!!")
+            return False
+        elif self.user!=username:
+            print("Username Not Match Manager !!!")
+        elif self.password!=password:
+            print("Password Not Match Manager !!!")
+            return False
+        else:
+            print("Congrat , Username and Password Match Manager.")
+            return True
+        
+
+
     def manage_panel(self):
         ManagerMode=True
         print("----- You Enter as a Manager -----")
@@ -72,6 +91,7 @@ class Manager(Applicant):
                 idx=self.employees.index(e)
                 self.employees.pop(idx)
                 return True
+        print(f"Username {username} Not Exist !")    
         return False
     #show list of employees 
     def showEployees(self):
@@ -98,7 +118,24 @@ class Manager(Applicant):
                 print(f"E-mail {emp.email} Exists,choose different E-mail and try again!")
                 return False
         return True  
-      
+
+    def validate_employee(self,username,password):
+        if not(isinstance(username,str)) or not(isinstance(password,str)):
+            print("Username and Password must be String")
+            return False  
+        findEmployee=False
+        idx=-1
+        for emp in self.employees:
+            if emp.user==username and emp.password==password:
+                findEmployee=True
+                idx=self.employees.index(emp)
+                break
+        if findEmployee:
+            return idx
+        else :
+            return None
+           
+
     #return list of employees
     def getEmployees(self):
         return self.employees

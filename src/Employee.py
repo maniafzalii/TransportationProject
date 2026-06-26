@@ -1,4 +1,4 @@
-from Applicant import Applicant
+from src.Applicant import Applicant
 
 #subclass of applicant it has name,family and email as its own attributes
 class Employee(Applicant):

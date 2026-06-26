@@ -17,6 +17,4 @@ class Train():
 
 
 trains = {}
-BLUE = '\033[94m'
-RESET = '\033[0m'
-RED = '\033[91m'
+train_id = 1

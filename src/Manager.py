@@ -1,6 +1,6 @@
-from Applicant import Applicant
+from src.Applicant import Applicant
 
-from Employee import Employee
+from src.Employee import Employee
 
 #subclass of Applicant it has list of employees as its own attribute
 class Manager(Applicant):

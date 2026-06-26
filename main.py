@@ -1,14 +1,12 @@
 from src.Traveler_src import *
-<<<<<<< HEAD
 from textwrap import dedent
-from Applicant import Applicant
-from Manager import Manager
-from Employee import Employee
-=======
+from src.Applicant import Applicant
+from src.Manager import Manager
+from src.Employee import Employee
 from src.Manager import Manager
 from textwrap import dedent
 from shayan.Employee_panel import *
->>>>>>> 36123e6722efe9a05ea64ee143a37157ff25f774
+
 # start panel
 
 
@@ -40,14 +38,14 @@ def main():
 
         match user_input_main:
             case "1":
-<<<<<<< HEAD
+
                 managerValidated=False
                 while not(managerValidated):
                     print("----- Enter Username and Password to Enter as Manager -----")
                     username=input("Username ").strip()
                     password=input("Password ").strip()
                     try:
-                        result=manager.validate_entrance(username,password)
+                        result= manager.validate_entrance(username,password)
                         if result:
                            managerValidated=True
                         else:
@@ -104,17 +102,14 @@ def main():
                         if employee is None:
                           print("Employee Not Found!")
                         else:    
-                            #SHAYAN call your panel
+                            emp_panel()
                             pass
                     except TypeError as ex:
                       print(f"Error : {ex}")
 
                  
-=======
+
                 pass
-            case "2":
-                emp_panel()
->>>>>>> 36123e6722efe9a05ea64ee143a37157ff25f774
             case "3":
                 traveler_panel()
             case "4":

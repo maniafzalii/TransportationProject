@@ -1,3 +1,5 @@
+from shayan.Train import *
+
 class Line():
     def __init__(self, name: str, origin: str, destination: str, count: int, stations: list):
         self.name = name
@@ -19,27 +21,6 @@ class Employee():
         self.username = username
         self.password = password
 
-
-class Train():
-    def __init__(self, name, move_line, speed: int, waiting_time: int, stars, ticket_price: int, capacity: int,
-                 id: int):
-        self.name = name
-        self.moveline = move_line
-        self.speed = speed
-        self.waiting_time = waiting_time
-        self.stars = stars
-        self.ticket_price = ticket_price
-        self.capacity = capacity
-        self.id = id
-
-    def __str__(self):
-        return f"ID: {self.id}   name: {self.name}    move_line: {self.moveline}    average speed: {self.speed}" \
-               f"    waiting_time: {self.waiting_time}    stars: {self.stars}    ticket_price: {self.ticket_price} " \
-               f"   capacity: {self.capacity}"
-
-
-trains = {}
-train_id = 1
 
 BLUE = '\033[94m'
 RESET = '\033[0m'
@@ -76,23 +57,30 @@ def emp_panel():
 
 def letter_please(prompt):
     while True:
-        value = input(prompt).strip()
-        if value.isalpha() == True or value == "0":
+        try:
+            value = input(prompt).strip()
+
+            if value == "0":
+                return value
+            if not value.isalpha():
+                raise ValueError
             return value
-        else:
+
+        except ValueError:
             print(f"{RED}use a-z A-Z as a correct input !{RESET}\n")
 
 
 def number_please(prompt):
     while True:
-        value = input(prompt)
-        if value == "exit":
-            return value
-        else:
-            if value.isdigit() == True:
-                return int(value)
-            else:
-                print(f"{RED}use numbers only !!! {RESET}\n")
+        try:
+            value = input(prompt)
+
+            if value == "exit":
+                return value
+            return int(value)
+
+        except ValueError:
+            print(f"{RED}use numbers only !!! {RESET}\n")
 
 
 def tname_please(prompt):
@@ -303,7 +291,7 @@ def show_lines():
         for line in lines.values():
             print(line)
         print("\n" * 2)
-        input(f"{BLUE}Press Enter to back main menu{RESET}")
+        input(f"{BLUE}Press Enter to back main menu\n{RESET}")
         return emp_panel()
     else:
         print(f"{RED}There is no line to show ! {RESET}")
@@ -591,8 +579,8 @@ def show_trains():
     if len(trains.values()) != 0:
         for train in trains.values():
             print(train)
-        print("\n" * 2)
-        input(f"{BLUE}Press Enter to back main menu{RESET}")
+        print("\n")
+        input(f"{BLUE}Press Enter to back main menu\n{RESET}")
         return emp_panel()
     else:
         print(f"{RED}There is no Train to show ! {RESET}")
@@ -603,3 +591,4 @@ def show_trains():
 def main_menu():
     pass
 
+emp_panel()

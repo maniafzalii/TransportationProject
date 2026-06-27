@@ -77,10 +77,21 @@ def number_please(prompt):
 
             if value == "exit":
                 return value
+
+            if value.strip().startswith("0"):
+                print(f"{RED}Use Valid Numbers !!!{RESET}")
+                continue
+
+            if value.strip().startswith("-"):
+                print(f"{RED}Don't use Negative Numbers !!! {RESET}\n")
+                continue
             return int(value)
 
         except ValueError:
-            print(f"{RED}use numbers only !!! {RESET}\n")
+            print(f"{RED}Use numbers only !!! {RESET}\n")
+
+
+
 
 
 def tname_please(prompt):
@@ -591,3 +602,4 @@ def show_trains():
 def main_menu():
     pass
 
+emp_panel()

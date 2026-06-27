@@ -11,7 +11,7 @@ from shayan.Employee_panel import *
 
 
 def main():
-    
+
     manager_username="team5"
     manager_password="@team5"
     manager=Manager(manager_username,manager_password)
@@ -26,11 +26,11 @@ def main():
         3. Traveler
         4. Exit
         -------------------------
-        Enter Your Role """)).strip()
+        Your choice? """)).strip()
 
         match user_input_main:
             case "1":
-                print("test")  
+                print("test")
             case "2":
                 emp_panel()
             case "3":

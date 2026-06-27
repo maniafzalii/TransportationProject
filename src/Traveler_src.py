@@ -11,7 +11,6 @@ YELLOW = "\033[93m"
 RESET = "\033[0m"
 travelers_database = dict()
 all_emails = list()
-tickets_database = dict()
 
 
 def card_validate(password, cvv2):
@@ -58,6 +57,7 @@ class Traveler:
 
     def charge_wallet(self):
         print("Enter 0 anytime to return")
+
         while True:
             charge_amount_input = input("How much you want to charge? ").strip()
             if charge_amount_input == "0":
@@ -217,7 +217,9 @@ class Traveler:
                 if traveler_input_edit_email in all_emails:
                     print("Someone already registered with this email!")
                 else:
+                    all_emails.remove(traveler_input_edit_email)
                     self.email = traveler_input_edit_email
+                    all_emails.append(traveler_input_edit_email)
                     print(f"Email changed to '{self.email}'")
                     return
 

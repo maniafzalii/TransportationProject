@@ -11,105 +11,28 @@ from shayan.Employee_panel import *
 
 
 def main():
-
-    print("----- Define Manager Username and Password -----")
-    print("----- Be Carefull Username and Password can be contain alphabet,numbers,@,& -----")
-
-    managerDefined=False
-    while not managerDefined:
-        try:
-            username=input("Username: ").strip()
-            password=input("Password: ").strip()
-            manager=Manager(username,password)
-            managerDefined=True
-            print("----- Congrat, Manager is Defined -----")
-        except (TypeError,ValueError) as ex:
-            print(f"Error : {ex}")    
-            print("Re-Enter Username and Password")
+    
+    manager_username="team5"
+    manager_password="@team5"
+    manager=Manager(manager_username,manager_password)
+    print("-------------------------------------------")
+    print("----- Welcome to Transportation Panel -----")
+    print("-------------------------------------------")
     while True:
         user_input_main = input(dedent("""
-        Welcome!
+        ----- Choose Your Entrance Mode -----
         1. Admin
         2. Employee
         3. Traveler
         4. Exit
         -------------------------
-        Your choice? """)).strip()
+        Enter Your Role """)).strip()
 
         match user_input_main:
             case "1":
-
-                managerValidated=False
-                while not(managerValidated):
-                    print("----- Enter Username and Password to Enter as Manager -----")
-                    username=input("Username ").strip()
-                    password=input("Password ").strip()
-                    try:
-                        result= manager.validate_entrance(username,password)
-                        if result:
-                           managerValidated=True
-                        else:
-                            print("----- Username or Password is Not Correct -----")
-                            print("----- What is your next Action? -----")
-                            print("1.Enter Entrance Data\n2.Exit Current Menu")
-                            try:
-                                mode=int(input())
-                                if mode==1:
-                                  continue
-                                elif mode==2:
-                                  break
-                                else:
-                                  print("Invalid input")
-                            except ValueError as ex:
-                                print(f"Error : {ex}")
-
-                    except TypeError as ex:
-                        print(f"Error : {ex}")        
-                if managerValidated:
-                    manager.manage_panel()
-                 
+                print("test")  
             case "2":
-                employeeValidated=False
-                username=""
-                while not(employeeValidated):
-                    print("----- Enter Username and Password to Enter as Employee -----")
-                    username=input("Username ").strip()
-                    password=input("Password ").strip()
-                    try:
-                        result=manager.validate_employee(username,password)
-                        if result:
-                           employeeValidated=True
-                        else:
-                            print("----- Username or Password is not Correct -----")
-                            print("----- What is your next Action? -----")
-                            print("1.Enter Entrance Data\n2.Exit Current Menu")
-                            try:
-                                mode=int(input())
-                                if mode==1:
-                                  continue
-                                elif mode==2:
-                                  break
-                                else:
-                                  print("Invalid Input !")
-                            except ValueError as ex:
-                                print(f"Error : {ex}")
-
-                    except TypeError as ex:
-                        print(f"Error : {ex}")        
-                if employeeValidated:
-                    try:
-                        employee=manager.get_Employee_By_Username(username)
-                        if employee is None:
-                          print("Employee Not Found!")
-                        else:    
-                            emp_panel()
-                            pass
-                    except TypeError as ex:
-                      print(f"Error : {ex}")
-
-                 
-
-                pass
+                emp_panel()
             case "3":
                 traveler_panel()
             case "4":

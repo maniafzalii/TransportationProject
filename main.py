@@ -107,9 +107,6 @@ def main():
                     except TypeError as ex:
                       print(f"Error : {ex}")
 
-                 
-
-                pass
             case "3":
                 traveler_panel()
             case "4":

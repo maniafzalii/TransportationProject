@@ -1,9 +1,7 @@
 from src.Traveler_src import *
 from textwrap import dedent
-from src.Applicant import Applicant
 from src.Manager import Manager
 from src.Employee import Employee
-from src.Manager import Manager
 from textwrap import dedent
 from shayan.Employee_panel import *
 
@@ -21,7 +19,7 @@ def main():
     while True:
         user_input_main = input(dedent("""
         ----- Choose Your Entrance Mode -----
-        1. Admin
+        1. Manager
         2. Employee
         3. Traveler
         4. Exit
@@ -30,16 +28,16 @@ def main():
 
         match user_input_main:
             case "1":
-                print("test")  
+                manager.enter_manager_panel()
             case "2":
-                emp_panel()
+                manager.enter_employee_panel()
             case "3":
                 traveler_panel()
             case "4":
-                print("Goodbye!")
+                print("----- GoodBye! -----")
                 break
             case _:
-                print("Invalid number")
+                print("----- Invalid Entrance Mode ------")
 
 
 if __name__ == "__main__":

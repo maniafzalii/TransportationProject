@@ -14,13 +14,9 @@ def main():
     manager_password="@team5"
     manager=Manager(manager_username,manager_password)
 
-    print("\n-------------------------------------------")
+    print(f"\n{GREEN}-------------------------------------------")
     print("----- Welcome to Transportation Panel -----")
-    print("-------------------------------------------\n")
-
-    print(f"{GREEN}-------------------------------------------")
-    print("----- Welcome to Transportation Panel -----")
-    print(f"-------------------------------------------{RESET}")
+    print(f"-------------------------------------------{RESET}\n")
 
     while True:
         user_input_main = input(dedent("""

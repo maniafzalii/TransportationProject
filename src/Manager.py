@@ -19,26 +19,38 @@ class Manager(Applicant):
         self.employees={}
     
     def enter_manager_panel(self):
+
         manager_validated=False
         while not manager_validated:
-            print("----- To Enter as a Manager : Enter Username and Password -----")
-            print("----- Press 0 to Exit")
+            #recieve username and password to enter as a manager
+            #empty input is not acceptable,press 0 back to entrance mode
+            print("\n----- To Enter as a Manager : Enter Username and Password -----\n")
+            print("----- In Each Step Press 0 to Exit\n")
             username=input("Username ").strip()
             if username=="0":
-               print("----- Returning to previous menu -----")
+               print("\n----- Returning to Previous Menu -----\n")
                return
+            if len(username)==0:
+               print(f"\n{RED}----- Username Can Not be Empty -----{RESET}\n")
+               continue 
             password=input("Password ").strip()
             if password=="0":
-               print("----- Returning to previous menu -----")
+               print("\n----- Returning to Previous Menu -----\n")
                return
+            if len(password)==0:
+               print(f"\n{RED}----- Password Can Not be Empty -----{RESET}\n")
+               continue 
             try:
+                #compare input with username and password of manager
                 result=self.validate_entrance(username,password)
                 if result:
-                  print(f"{BLUE}----- Login Successful.Welcome Manager Panel -----{RESET}")
+                   #if username and password are correct ,user enter manager panel
+                  print(f"\n{BLUE}----- Login Successful Welcome to Manager Panel -----{RESET}\n")
                   manager_validated=True
                   self.execute_manager_panel()
                 else:
-                    print(f"{RED}----- Username or Password is Wrong -----{RESET}")  
+                    #if input is worng,ask user to choose next action
+                    print(f"\n{RED}----- Username or Password is Wrong -----{RESET}\n")  
                     while True:
                         user_input=input(dedent("""\
                         ----- Choose Your Next Action -----
@@ -51,20 +63,23 @@ class Manager(Applicant):
                             case "2":
                               return
                             case _:
-                              print("----- Invalid Action -----")
+                              print(f"\n{RED}----- Invalid Action -----{RESET}\n")
             except TypeError as ex:
-                print(f"{RED}----- Error : {ex} -----{RESET}")     
+                print(f"{RED}----- Error : {ex} -----{RESET}\n")     
         
       
     #validate username and password with manager to allow entrance
     def validate_entrance(self,username,password):
+        #if input is not instance of string raise error
         if not(isinstance(username,str)) or not(isinstance(password,str)):
             raise TypeError(f"{RED}Username and Password must be String !{RESET}")
         return self.user==username and self.password==password
         
     #Where manager can control employees
     def execute_manager_panel(self):
+        #while managrmode is true ,manager panel is running
         ManagerMode=True
+
         while ManagerMode:
             user_input=input(dedent("""\
                     ----- Choose Your Action -----
@@ -75,72 +90,75 @@ class Manager(Applicant):
                     >>>>>  """)).strip()       
             match user_input:
                 case "1":
-                    print("----- Enter Employee Information -----")
-                    print("----- Press 0 to Exit")
+                    print("\n----- Enter Employee Information -----\n")
+                    print("----- In Each Step Press 0 to Exit\n")
                     username=input("Username ").strip()
                     if(username=="0"):
-                        print("----- Returning to previous menu -----")
+                        print("\n----- Returning to previous menu -----\n")
                         continue
                     if(len(username)==0):
-                        print(f"{RED}----- Username Can Not be Empty -----{RESET}")
+                        print(f"\n{RED}----- Username Can Not be Empty -----{RESET}\n")
                         continue
 
                     password=input("Password ").strip()
                     if(password=="0"):
-                        print("----- Returning to previous menu -----")
+                        print("\n----- Returning to previous menu -----\n")
                         continue
                     if(len(password)==0):
-                        print(f"{RED}----- Password Can Not be Empty -----{RESET}")
+                        print(f"\n{RED}----- Password Can Not be Empty -----{RESET}\n")
                         continue
                     name=input("Name ").strip()
                     if(name=="0"):
-                        print("----- Returning to previous menu -----")
+                        print("\n----- Returning to previous menu -----\n")
                         continue
                     if(len(name)==0):
-                        print(f"{RED}----- Name Can Not be Empty -----{RESET}")
+                        print(f"\n{RED}----- Name Can Not be Empty -----{RESET}\n")
                         continue
                     family=input("Family ").strip()
                     if(family=="0"):
-                        print("----- Returning to previous menu -----")
+                        print("\n----- Returning to previous menu -----\n")
                         continue
                     if(len(family)==0):
-                        print(f"{RED}----- Family Can Not be Empty -----{RESET}")
+                        print(f"\n{RED}----- Family Can Not be Empty -----{RESET}\n")
                         continue
                     email=input("Email ").strip()
                     if(email=="0"):
-                        print("----- Returning to previous menu -----")
+                        print("\n----- Returning to previous menu -----\n")
                         continue
                     if(len(email)==0):
-                        print(f"{RED}----- E-mail Can Not be Empty -----{RESET}")
+                        print(f"\n{RED}----- E-mail Can Not be Empty -----{RESET}\n")
                         continue
                     try:
+                        #add_employee return true or false or raise error
                         result=self.add_employee(username,password,name,family,email)
                         if result:
-                            print(f"{BLUE}----- New Employee Added -----{RESET}")
+                            print(f"{BLUE}----- New Employee Added -----{RESET}\n")
                         else:
-                            print(f"{RED}----- New Employee Not Added due to Repitition -----{RESET}")
+                            print(f"{RED}----- New Employee Not Added due to Repitition -----{RESET}\n")
                     except (ValueError,TypeError) as ex:
-                        print(f"{RED}>>>>> Error : {ex}{RESET}")
+                        print(f"{RED}>>>>> Error : {ex}{RESET}\n")
                 case "2":    
-                    print("----- Enetr Username to Remove Employee -----")
+                    print("\n----- Enetr Username to Remove Employee -----\n")
                     username=input("Username ").strip()
                     if(username=="0"):
-                        print("----- Returning to previous menu -----")
+                        print("\n----- Returning to previous menu -----\n")
                         continue
                     if(len(username)==0):
-                        print(f"{RED}----- Username Can Not be Empty -----{RESET}")
+                        print(f"{RED}\n----- Username Can Not be Empty -----{RESET}\n")
                         continue
                     try:
+                        #remove employee, if list is empty or username not exist raise error
+                        #if username not string raise error
                         self.remove_employee(username)
                     except (ValueError,TypeError) as ex:
-                        print(f"{RED}>>>>> Error : {ex}{RESET}")  
+                        print(f"{RED}>>>>> Error : {ex}{RESET}\n")  
                 case "3":
                     self.show_employees()
                 case "4":
-                    print("----- Exit Manager Panel -----")
+                    print("\n----- Exit Manager Panel -----\n")
                     ManagerMode=False   
                 case _:
-                    print(f"----- Invalid Managing Action -----")           
+                    print(f"\n{RED}----- Invalid Managing Action -----{RESET}\n")           
       
 
     #firstly,create a new instance of employee if data is invalid raise error
@@ -164,19 +182,19 @@ class Manager(Applicant):
         if not username in self.employees:
              raise ValueError(f"{RED}Employeee Not Found {RESET}") 
         self.employees.pop(username)
-        print(f"{BLUE}----- Employee {username} Removed Successfully ----{RESET} ")
+        print(f"{BLUE}----- Employee {username} Removed Successfully ----{RESET}\n ")
 
     #show list of employees 
     def show_employees(self):
 
         if len(self.employees)==0:
-            print(f"{YELLOW}----- Employee List is Empty -----{RESET}")
+            print(f"{YELLOW}----- Employee List is Empty -----{RESET}\n")
             return
-        print(f"{GREEN}---------- Employee List ----------{RESET}")
-        print(f"{GREEN}Username        Password         Name         Family           E-mail{RESET}")
+        print(f"{GREEN}---------- Employee List ----------{RESET}\n")
+        print(f"{GREEN}Username        Password         Name         Family           E-mail{RESET}\n")
         idx=1
         for value in self.employees.values():
-            print(f"{GREEN}{idx}. {value}{RESET}")
+            print(f"{GREEN}{idx}. {value}{RESET}\n")
             idx+=1
 
     
@@ -185,40 +203,52 @@ class Manager(Applicant):
     #check if newemployee 's username or email exists in the self.employees or not
     #this method use by manager in add_employee method
     def employee_repition_check(self,newEmployee):
+        #if list is empty ,any user can add 
         if len(self.employees)==0:
             return True
+        #first check username repitition then email repitition
         if newEmployee.user in self.employees:
-            print(f"{RED}Username {newEmployee.user} exist !{RESET}")
+            print(f"{RED}Username {newEmployee.user} exist !{RESET}\n")
             return False
         for emp in self.employees.values():
             if emp.email==newEmployee.email:
-               print(f"{RED}Email {newEmployee.email} exist !{RESET}")
+               print(f"{RED}Email {newEmployee.email} exist !{RESET}\n")
                return False
         return True
-    
+    #First examine existance of employee 
     def enter_employee_panel(self):
         employee_validated=False
         while not employee_validated:
-            print("----- To Enter as an Employee : Enter Username and Password -----")
-            print("----- Press 0 to Exit")
-        
+            print("\n----- To Enter as an Employee : Enter Username and Password -----\n")
+            print("----- In Each Step Press 0 to Exit")
+            #recieve username and password to enter as a manager
+            #empty input is not acceptable,press 0 back to entrance mode
             username=input("Username ").strip()
             if(username=="0"):
-               print("----- Returning to previous menu -----")
+               print("\n----- Returning to previous menu -----\n")
                return 
+            if(len(username)==0):
+                print(f"\n{RED}----- Username Can Not be Empty -----{RESET}\n")
+                continue
             password=input("Password ").strip()
             if  password=="0":
-               print("----- Returning to previous menu -----")
+               print("\n----- Returning to previous menu -----\n")
                return
+            if(len(password)==0):
+                print(f"\n{RED}----- Password Can Not be Empty -----{RESET}\n")
+                continue
 
             try:
+                #examin existance of employee
                 result=self.validate_employee(username,password)
                 if result:
-                   print(f"{BLUE}----- Login Successful.Welcome Employee Panel -----{RESER}")
+                   #call employee panel(emp_panel()) 
+                   print(f"\n{BLUE}----- Login Successful Welcome to Employee Panel -----{RESET}\n")
                    employee_validated=True
                    emp_panel()
                 else:
-                    print(f"{RED}----- Username or Password is Wrong -----{RESET}")  
+                    #ask user what is next action
+                    print(f"\n{RED}----- Username or Password is Wrong -----{RESET}\n")  
                     while True:
                         user_input=input(dedent("""\
                         ----- Choose Your Next Action -----
@@ -231,7 +261,7 @@ class Manager(Applicant):
                             case "2":
                               return
                             case _:
-                              print("----- Invalid Action -----")
+                              print(f"{RED}----- Invalid Action -----{RESET}\n")
             except TypeError as ex:
                 print(f"{RED}----- Error : {ex} -----{RESET}")     
 

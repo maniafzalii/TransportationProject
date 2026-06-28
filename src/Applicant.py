@@ -23,7 +23,7 @@ class Applicant:
         
                 
     def __repr__(self):
-        return f"{GREEN}{self.user}       {'*'* len(self.password)} {RESET}"
+        return f"{GREEN}{self.user}       {self.password} {RESET}"
 
     #check validation
     #username and password must be str

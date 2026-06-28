@@ -1,7 +1,14 @@
 import re
 
-class Applicant:
+BLUE = '\033[94m'
+RED = '\033[91m'
+GREEN = '\033[92m'
+RESET = '\033[0m'
+YELLOW = '\033[93m'
 
+
+class Applicant:
+    
     def __init__(self,user:str,password:str):
     
         Applicant.checkValidation(user,password)
@@ -16,7 +23,7 @@ class Applicant:
         
                 
     def __repr__(self):
-        return f"username {self.user} , password {'*'* len(self.password)}"
+        return f"{GREEN}username {self.user} , password {'*'* len(self.password)} {RESET}"
 
     #check validation
     #username and password must be str
@@ -25,7 +32,7 @@ class Applicant:
     def checkValidation(username,password):
         
         if not(isinstance(username,str)) or not(isinstance(password,str)) :
-           raise TypeError("Username and Password Must be String ")
+           raise TypeError(f"{RED}Username and Password Must be String !{RESET} ")
          
         Applicant.validate_password(password)
         return True
@@ -35,17 +42,6 @@ class Applicant:
         pattern = r"^(?=.*[@&])(?=.*[0-9])(?=.*[a-zA-Z]).*$"
         if re.match(pattern, password):
            return True
-        raise ValueError("Password must be combination of alphabet,digit and one of(@,&)!")
+        raise ValueError(f"{REDE} Password must be combination of alphabet,digit and one of(@,&)!{RESET}")
         
-    #check if email follows defines structure    
-    @staticmethod
-    def validate_email(email):
-        if not(isinstance(email,str)):
-            raise TypeError("Email must be String")
-        pattern = r"^[^@\s]+@[a-zA-Z]+\.[a-zA-Z]{2,}$"
-        if re.match(pattern, email):
-           return True
-        raise ValueError("Email must follow format like: <<shiva@gmail.com>> ")
-
-            
-    
+   

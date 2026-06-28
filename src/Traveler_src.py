@@ -56,68 +56,63 @@ class Traveler:
 
 
     def charge_wallet(self):
-        print("Enter 0 anytime to return")
+        print("\nEnter 0 anytime to return")
 
         while True:
             charge_amount_input = input("How much you want to charge? ").strip()
             if charge_amount_input == "0":
                 return
             elif not charge_amount_input.isdigit():
-                print("Invalid amount! Enter number")
+                print(f"{RED}Enter a positive number.{RESET}")
                 continue
-            elif int(charge_amount_input) < 0:
-                print("Invalid amount!")
-                continue
+            charge_amount_input = int(charge_amount_input)
 
             while True:
                 charge_card_input = input("Enter card number: ").strip()
                 if charge_card_input == "0":
                     break
                 elif not charge_card_input.isdigit():
-                    print("Invalid input!")
+                    print(f"{RED}Card must be a number.{RESET}")
                     continue
                 elif len(charge_card_input) != 16:
-                    print("Must be 16 digits!")
+                    print(f"{RED}Card must be a 16-digit number.{RESET}")
                     continue
 
                 charge_exp_month_input = input("Enter exp month: ").strip()
                 if charge_exp_month_input == "0":
                     break
                 elif not charge_exp_month_input.isdigit():
-                    print("Enter number!")
-                    continue
-                elif not (1 <= len(charge_exp_month_input) <= 2):
-                    print("Invalid number!")
+                    print(f"{RED}Month must be number.{RESET}")
                     continue
                 elif not (1 <= int(charge_exp_month_input) <= 12):
-                    print("Invalid number!")
+                    print(f"{RED}I guess you just invented a new month! Try 1–12.{RESET}")
                     continue
 
-                charge_exp_year_input = input("Enter exp year: ").strip()
+                charge_exp_year_input = input("Enter exp year:(1405-1410) ").strip()
                 if charge_exp_year_input == "0":
                     break
                 elif not charge_exp_year_input.isdigit():
-                    print("Invalid input!")
+                    print(f"{RED}Year must be number.{RESET}")
                     continue
                 elif len(charge_exp_year_input) != 4:
-                    print("Invalid number!")
+                    print(f"{RED}Year must be a 4-digit number.{RESET}")
                     continue
                 elif int(charge_exp_year_input) < 1405 or int(charge_exp_year_input) > 1410:
-                    print("Invalid year!")
+                    print(f"{RED}Your card appears to be expired! try again.{RESET}")
                     continue
 
                 charge_cvv2_input = input("Enter cvv2: ").strip()
                 if charge_cvv2_input == "0":
                     break
                 elif not charge_cvv2_input.isdigit():
-                    print("Invalid input!")
+                    print(f"{RED}cvv2 must be a 3-digit number.{RESET}")
                     continue
 
                 charge_password_input = input("Enter password: ").strip()
                 if charge_password_input == "0":
                     break
                 elif not charge_password_input.isdigit():
-                    print("Invalid number!")
+                    print(f"{RED}Password must be a 6-digit number.{RESET}")
                     continue
 
                 if card_validate(int(charge_password_input), int(charge_cvv2_input)):
@@ -125,26 +120,33 @@ class Traveler:
                     current_card = Card(charge_card_input, charge_exp_month_input, charge_exp_year_input, charge_cvv2_input, charge_password_input)
                     self.cards[f"{charge_card_input}"] = current_card
                     payment_id = generate_payment_id(charge_amount_input, charge_card_input)
-                    self.transactions.append(f'{GREEN} - [{datetime.now().strftime("%Y-%m-%d %H:%M")}]{RESET} Type: Charge | Amount: {charge_amount_input}T | Payment ID: {payment_id}')
+                    self.transactions.append(f'{GREEN} - [{datetime.now().strftime("%Y-%m-%d %H:%M")}]{RESET} Type: Charge | Amount: {int(charge_amount_input)}T | Payment ID: {payment_id}')
                     self.balance += int(charge_amount_input)
-                    print("Wallet charged successfully!")
+                    print(f"\n{BLUE}Wallet charged successfully.{RESET}")
                     return
 
                 else:
-                    print("Card information is not correct!!")
+                    print(f"{RED}Card information is not correct.{RESET}")
 
 
 
     def buy_ticket(self):
         print("Enter 0 anytime to return")
         while True:
-            if not trains:
-                print("No trains available")
-                return
+            # if not trains:
+            #     print(f"\n{YELLOW}No trains available.{RESET}")
+            #     return
 
             if self.balance == 0:
-                print("Please charge your wallet first!")
-                return
+                match input("Your wallet is empty! You wanna charge?(y/n) ").strip().lower():
+                    case "y":
+                        self.charge_wallet()
+                        return
+                    case "n":
+                        pass
+                    case _:
+                        print(f"{RED}Invalid input.{RESET}")
+                        continue
 
             available_trains_to_buy = []
             for train in trains.values():
@@ -152,7 +154,7 @@ class Traveler:
                     continue
                 else:
                     available_trains_to_buy.append(train)
-                    print(f"{BLUE} - {train}{RESET}")
+                    print(f'{YELLOW}{" " * (5 - train.stars)}{"*" * train.stars}{RESET}{BLUE} | Train ID: {train.id} | Train name: {train.name} | Ticket price(1x): {int(train.ticket_price)}{RESET}')
 
             traveler_input_buy_ticket_id = input("Enter train ID to buy: ").strip()
             if traveler_input_buy_ticket_id == "0":
@@ -165,66 +167,71 @@ class Traveler:
                     if traveler_input_buy_ticket_capacity == "0":
                         break
                     elif train_to_buy.capacity < traveler_input_buy_ticket_capacity:
-                        print(f"Not enough seats! only {train_to_buy.capacity} left.")
-                    elif self.balance < (train_to_buy.ticket_price * traveler_input_buy_ticket_capacity):
-                        print(f"Please charge your wallet {train_to_buy.ticket_price * traveler_input_buy_ticket_capacity - self.balance}T at least first!")
+                        print(f"{RED}Not enough seats. only {train_to_buy.capacity} left.{RESET}")
+                    elif self.balance < (int(train_to_buy.ticket_price) * traveler_input_buy_ticket_capacity):
+                        print(f"{RED}Please charge your wallet {int(train_to_buy.ticket_price) * traveler_input_buy_ticket_capacity - self.balance}T at least.{RESET}")
                         return
                     # buying process start
                     else:
                         while True:
-                            print(f'{BLUE} - [{datetime.now().strftime("%Y-%m-%d %H:%M")}]{RESET} Train name: {train_to_buy.name} | Seats: {traveler_input_buy_ticket_capacity}x | Ticket price(x1): {train_to_buy.ticket_price} | Train stars: {train_to_buy.stars} | Train ID: {train_to_buy.id}')
+                            print(f'{YELLOW}{" " * (5 - train_to_buy.stars)}{"*" * train_to_buy.stars}{RESET}{BLUE} - Train name: {train_to_buy.name} | Seats: {traveler_input_buy_ticket_capacity}x | Ticket price(1x): {int(train_to_buy.ticket_price)} | Train ID: {train_to_buy.id}{RESET}')
                             final_check = input("Confirm purchase?(y/n) ").strip().lower()
                             if final_check == "n":
                                 return
                             elif final_check == "y":
-                                final_price = train_to_buy.ticket_price * traveler_input_buy_ticket_capacity
+                                final_price = int(train_to_buy.ticket_price) * traveler_input_buy_ticket_capacity
                                 train_to_buy.capacity -= traveler_input_buy_ticket_capacity
-                                self.tickets.append(f'{BLUE} - [{datetime.now().strftime("%Y-%m-%d %H:%M")}]{RESET} Train name: {train_to_buy.name} | Seats: {traveler_input_buy_ticket_capacity}x | Ticket price(x1): {train_to_buy.ticket_price} | Train stars: {train_to_buy.stars} | Train ID: {train_to_buy.id}')
+                                self.tickets.append(f'{BLUE} - [{datetime.now().strftime("%Y-%m-%d %H:%M")}]{RESET} Train name: {train_to_buy.name} | Seats: {traveler_input_buy_ticket_capacity}x | Ticket price(x1): {int(train_to_buy.ticket_price)} | Train stars: {train_to_buy.stars} | Train ID: {train_to_buy.id}')
                                 self.balance -= final_price
                                 payment_id = generate_payment_id(final_price, self.cards[0])
                                 self.transactions.append(f'{GREEN} - [{datetime.now().strftime("%Y-%m-%d %H-%M")}]{RESET} Type: Shop | Amount: {final_price}T | Payment ID: {payment_id}')
-                                print("Ticket purchased successfully. Have a good trip!!")
+                                print(f"{BLUE}Ticket purchased successfully. Have a good trip ;){RESET}")
                                 return
                             else:
-                                print("Invalid input!")
+                                print(f"{RED}Invalid input{RESET}")
 
             else:
-                print("Train not found!")
+                print(f"{RED}Train not found.{RESET}")
 
 
     def edit_name(self):
-        print("Enter 0 anytime to return")
+        print("\nEnter 0 anytime to return")
         while True:
             traveler_input_edit_name = input("Enter your new name: ").strip()
             if traveler_input_edit_name == "0":
                 return
             elif traveler_input_edit_name == self.name:
-                print(f"Your name is already {self.name}")
+                print(f"{BLUE}Your name is already {self.name}.{RESET}")
             elif validate_name(traveler_input_edit_name):
                 self.name = traveler_input_edit_name
-                print(f"Name changed to '{self.name}'")
+                print(f"\n{BLUE}Name changed to '{self.name}'.{RESET}")
                 return
 
 
     def edit_email(self):
+        print("\nEnter 0 anytime to return")
         while True:
-            traveler_input_edit_email = input("Enter your new email: ").strip()
+            traveler_input_edit_email = input("\nEnter your new email: ").strip()
             if traveler_input_edit_email == "0":
                 return
             elif traveler_input_edit_email == self.email:
-                print(f"Your email is already {self.email}")
+                print(f"{BLUE}Your email is already '{self.email}'.{RESET}")
             elif validate_email(traveler_input_edit_email):
                 if traveler_input_edit_email in all_emails:
-                    print("Someone already registered with this email!")
+                    print(f"{RED}Someone has already registered with this email.{RESET}")
                 else:
-                    all_emails.remove(traveler_input_edit_email)
+                    try:
+                        all_emails.remove(self.email)
+                    except ValueError:
+                        pass
                     self.email = traveler_input_edit_email
-                    all_emails.append(traveler_input_edit_email)
-                    print(f"Email changed to '{self.email}'")
+                    all_emails.append(self.email)
+                    print(f"\n{BLUE}Email changed to '{self.email}'.{RESET}")
                     return
 
 
     def edit_password(self):
+        print("\nEnter 0 anytime to return")
         while True:
             password_check = input("Enter your current password: ").strip()
             if password_check == "0":
@@ -235,18 +242,19 @@ class Traveler:
                     if traveler_input_edit_password == "0":
                         return
                     elif traveler_input_edit_password == self.password:
-                        print("You are already using that password!")
+                        print(f"{BLUE}You are already using that password.{RESET}")
                     elif validate_password(traveler_input_edit_password):
                         self.password = traveler_input_edit_password
-                        print("Password changed successfully")
+                        print(f"{BLUE}Password changed successfully.{RESET}")
                         return
             else:
-                print("Incorrect password!")
+                print(f"{RED}Incorrect password.{RESET}")
 
 
 def traveler_panel():
     while True:
         user_input_traveler_panel = input(dedent("""
+        -------------------------
         1. Register
         2. Login
         3. Return to start menu
@@ -263,11 +271,11 @@ def traveler_panel():
             case "3":
                 break
             case _:
-                print("Invalid number")
+                print(f"{RED}Invalid number.{RESET}")
 
 
 def traveler_register_menu():
-    print("Enter 0 anytime to return")
+    print("\nEnter 0 anytime to return")
     while True:
         traveler_register_name = input("Enter your name: ").strip()
         if traveler_register_name == "0":
@@ -281,7 +289,7 @@ def traveler_register_menu():
             return
         elif validate_email(traveler_register_email):
             if traveler_register_email in all_emails:
-                print("Someone already registered with this email!")
+                print(f"{RED}Someone already registered with this email.{RESET}")
             else:
                 break
 
@@ -291,7 +299,7 @@ def traveler_register_menu():
             return
         elif validate_username(traveler_register_username):
             if traveler_register_username in travelers_database.keys():
-                print("Username already exists!")
+                print(f"{RED}Username already exists.{RESET}")
             else:
                 break
 
@@ -305,11 +313,11 @@ def traveler_register_menu():
     # add traveler data
     all_emails.append(traveler_register_email)
     travelers_database[traveler_register_username] = Traveler(traveler_register_username, traveler_register_name, traveler_register_email, traveler_register_password)
-    print("Registered successfully!")
+    print(f"\n{BLUE}Registered successfully.{RESET}")
 
 
 def traveler_login_menu():
-    print("Enter 0 anytime to return")
+    print("\nEnter 0 anytime to return")
     while True:
         traveler_login_username = input("Enter your username: ").strip()
         if traveler_login_username == "0":
@@ -319,18 +327,19 @@ def traveler_login_menu():
             return
         if traveler_login_username in travelers_database.keys():
             if traveler_login_password == travelers_database[traveler_login_username].password:
-                print(f'Welcome {travelers_database[traveler_login_username].name}!')
+                print(f'\n{BLUE}Welcome {travelers_database[traveler_login_username].name}.{RESET}')
                 return travelers_database[traveler_login_username]
             else:
-                print("Username and password does not match!")
+                print(f"{RED}Username and password does not match.{RESET}")
 
         else:
-            print("Username not found!")
+            print(f"{RED}Username not found.{RESET}")
 
 
 def purchase_panel(traveler):
     while True:
         user_input_purchase_panel = input(dedent("""
+        -------------------------
         1. Buy ticket
         2. Wallet
         3. My tickets
@@ -346,23 +355,24 @@ def purchase_panel(traveler):
                 wallet_menu(traveler)
             case "3":
                 if not traveler.tickets:
-                    print("You do not have any tickets yet!")
+                    print(f"{YELLOW}\nNO tickets yet.{RESET}")
                 else:
                     for ticket in traveler.tickets:
                         print(ticket)
             case "4":
-                print(traveler)
+                print(f"\n{GREEN}{traveler}{RESET}")
             case "5":
                 edit_info_menu(traveler)
             case "6":
                 return
             case _:
-                print("Invalid number")
+                print(f"{RED}Invalid number.{RESET}")
 
 
 def edit_info_menu(traveler):
     while True:
         user_input_edit_info = input(dedent("""
+        -------------------------
         1. Edit name
         2. Edit email
         3. Edit password
@@ -380,13 +390,14 @@ def edit_info_menu(traveler):
             case "4":
                 return
             case _:
-                print("Invalid number")
+                print(f"{RED}Invalid number.{RESET}")
 
 
 def wallet_menu(traveler):
     while True:
         user_input_wallet_menu = input(dedent(f"""
-        Balance = {traveler.balance} T
+        -------------------------
+        {GREEN}Balance = {traveler.balance} T{RESET}
         1. Charge wallet
         2. My cards
         3. Transactions
@@ -399,17 +410,19 @@ def wallet_menu(traveler):
                 traveler.charge_wallet()
             case "2":
                 if not traveler.cards:
-                    print("No cards added yet!")
+                    print(f"\n{YELLOW}No cards added yet.{RESET}")
                 else:
+                    print()
                     for card in traveler.cards:
                         print(f"{YELLOW} - {card}{RESET}")
             case "3":
                 if not traveler.transactions:
-                    print("No transactions yet!")
+                    print(f"\n{YELLOW}No transactions yet.{RESET}")
                 else:
+                    print()
                     for transaction in traveler.transactions:
                         print(transaction)
             case "4":
                 return
             case _:
-                print("Invalid number")
+                print(f"{RED}Invalid number.{RESET}")

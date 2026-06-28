@@ -29,18 +29,15 @@ def validate_name(name):
     if not name.isalpha():
         print(f"{RED}Name can only contain letters!{RESET}\n")
         return False
-    if len(name) < 3 or len(name) > 15:
-        print(f"{RED}Name must be between 3 and 15 characters.{RESET}\n")
+    if len(name) < 2 or len(name) > 20:
+        print(f"{RED}Name must be between 2 and 20 characters.{RESET}\n")
         return False
     return True
 
 
 def validate_username(username):
-    if not username.isalnum():
-        print("Username can only contain letters and numbers.")
-        return False
-    if len(username) < 3 or len(username) > 15:
-        print("Username must be between 3 and 15 characters.")
+    if len(username) < 3 or len(username) > 20:
+        print("Username must be between 3 and 20 characters.")
         return False
     return True
 

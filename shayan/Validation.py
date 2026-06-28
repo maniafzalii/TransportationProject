@@ -2,6 +2,8 @@ import re
 
 RESET = '\033[0m'
 RED = '\033[91m'
+BLUE = '\033[94m'
+
 
 def validate_password(password):
     pattern = r"^(?=.*[@&])(?=.*[0-9])(?=.*[a-zA-Z]).*$"
@@ -9,15 +11,17 @@ def validate_password(password):
         return True
 
     else:
-        print("Not Valid password , try again !!")
+        print(
+            f"{RED}Not Valid Password{RESET} Password must contain {BLUE}[number and word and symbol [@&] !{RESET}\nTry Again\n ")
         return False
+
 
 def validate_email(email):
     pattern = r".+@[a-zA-Z]+\.[a-zA-Z]{2,}$"
     if re.match(pattern, email):
         return True
     else:
-        print("not valid email ! try again")
+        print(f"{RED}Not Valid Email {RESET} Correct Format is : {BLUE}username@domain.domain{RESET}\nTry Again\n")
         return False
 
 
@@ -43,25 +47,35 @@ def validate_username(username):
 
 def letter_please(prompt):
     while True:
-        value = input(prompt).strip()
-        if value.isalpha() == True or value == "0":
+        try:
+            value = input(prompt).strip()
+
+            if value == "0":
+                return value
+            if not value.isalpha():
+                raise ValueError
             return value
-        else:
+
+        except ValueError:
             print(f"{RED}use a-z A-Z as a correct input !{RESET}\n")
 
 
 def number_please(prompt):
     while True:
-        value = input(prompt)
-        if value == "exit":
-            return value
-        else:
-            if value.isdigit() == True:
-                return int(value)
-            else:
-                print(f"{RED}use numbers only !!! {RESET}\n")
+        try:
+            value = input(prompt)
 
+            if value == "exit":
+                return value
 
+            if value.strip().startswith("0"):
+                print(f"{RED}Use Valid Numbers !!!{RESET}")
+                continue
 
+            if value.strip().startswith("-"):
+                print(f"{RED}Don't use Negative Numbers !!! {RESET}\n")
+                continue
+            return int(value)
 
-
+        except ValueError:
+            print(f"{RED}Use numbers only !!! {RESET}\n")

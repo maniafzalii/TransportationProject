@@ -34,7 +34,7 @@ def main():
             case "3":
                 traveler_panel()
             case "4":
-                print("----- GoodBye! -----")
+                print("----- GoodBye -----")
                 break
             case _:
                 print("----- Invalid Entrance Mode ------")

@@ -133,9 +133,9 @@ class Traveler:
     def buy_ticket(self):
         print("Enter 0 anytime to return")
         while True:
-            # if not trains:
-            #     print(f"\n{YELLOW}No trains available.{RESET}")
-            #     return
+            if not trains:
+                print(f"\n{YELLOW}No trains available.{RESET}")
+                return
 
             if self.balance == 0:
                 match input("Your wallet is empty! You wanna charge?(y/n) ").strip().lower():

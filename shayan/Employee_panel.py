@@ -9,28 +9,25 @@ class Line():
         self.stations = stations
 
     def __str__(self):
-        return f"{BLUE}line name: {self.name}{RESET}    origin: {self.origin}    destination:" \
+        return f"line name:{BLUE} {self.name}{RESET}    origin: {self.origin}    destination:" \
                f" {self.destination}    number of stations: {self.count}    stations: {self.stations}"
 
 
 lines = {}
 
 
-class Employee():
-    def __init__(self, username, password):
-        self.username = username
-        self.password = password
 
 
 BLUE = '\033[94m'
 RESET = '\033[0m'
 RED = '\033[91m'
+GREEN = "\033[92m"
 
 
 def emp_panel():
     print("1: Add new line\n2: Update line\n3: Remove line\n4: Show lines info\n"
           "5: Add Train\n6: Update Train info\n7: Remove Train\n8: Show Trains info\n"
-          "9: Exit to main menu")
+          "9: Exit to main menu\n")
     choice = input(f"Please select an option ({BLUE}1-9{RESET}): ")
     if choice == "1":
         add_line()
@@ -91,9 +88,6 @@ def number_please(prompt):
             print(f"{RED}Use numbers only !!! {RESET}\n")
 
 
-
-
-
 def tname_please(prompt):
     while True:
         value = input(prompt).strip()
@@ -109,30 +103,34 @@ def tname_please(prompt):
 
 def add_line():
     stations = []
-    print("\n--- Adding new line ---\n")
+    print(f"\n---{BLUE} Adding new line{RESET} ---\n")
     while True:
         name = letter_please(f"[0] back {BLUE}|{RESET} Enter line name : ")
         if name == "0":
+            print(f"{BLUE}\nEmployee Menu {RESET}\n")
             return emp_panel()
         elif name in lines.keys():
-            print(f"{RED} this line is already exist !!!\n {RESET}")
+            print(f"{RED}This line is already exist !!!\n {RESET}")
         else:
             break
     while True:
         origin = letter_please(f"[0] back {BLUE}|{RESET} Enter Origin city : ")
         if origin == "0":
+            print(f"{BLUE}\nEmployee Menu {RESET}\n")
             return emp_panel()
         else:
             break
     while True:
         destination = letter_please(f"[0] back {BLUE}|{RESET} Destination city : ")
         if destination == "0":
+            print(f"{BLUE}\nEmployee Menu {RESET}\n")
             return emp_panel()
         else:
             break
     while True:
         count = number_please(f"Enter {RED}exit{RESET} for back {BLUE}|{RESET} Enter the number of Stations : ")
         if count == "exit":
+            print(f"{BLUE}\nEmployee Menu {RESET}\n")
             return emp_panel()
         else:
             break
@@ -141,6 +139,7 @@ def add_line():
     while i <= count:
         station = letter_please(f"[0] back {BLUE}|{RESET} Enter station {i} name : ")
         if station == "0":
+            print(f"{BLUE}\nEmployee Menu {RESET}\n")
             return emp_panel()
         else:
             if station not in stations:
@@ -151,12 +150,12 @@ def add_line():
 
     new_line = Line(name, origin, destination, count, stations)
     lines[name] = new_line
-    print("new line successfully added : \n", new_line, "\n")
+    print(f"\nNew line successfully added\n{BLUE}{new_line}{RESET}, \n")
     return emp_panel()
 
 
 def update_line():
-    choise = input("select [1] for update or select [2] for exit : ")
+    choise = input(f"Select [1] for update{BLUE} | {RESET}Select [2] for exit : ")
     if choise == "1" and len(lines.keys()) != 0:
 
         while True:
@@ -166,6 +165,7 @@ def update_line():
             else:
                 pass
             if line_name in lines.keys():
+                print("")
                 print(lines[line_name])
                 while True:
                     choise = input(
@@ -174,7 +174,7 @@ def update_line():
                         " 2:origin\n"
                         " 3:destination\n"
                         " 4:stations\n"
-                        " 5:exit\n :  ")
+                        " 5:exit\n ==>    ")
 
                     if choise == "1":
 
@@ -184,7 +184,7 @@ def update_line():
                                 break
                             else:
                                 if new_name in lines.keys():
-                                    print(f"{RED} this line is already exist !!!\n {RESET}")
+                                    print(f"{RED}This line is already exist !!!\n {RESET}")
                                 else:
                                     old_name = line_name
 
@@ -195,7 +195,7 @@ def update_line():
                                             train.moveline = new_name
                                     line_name = new_name
 
-                                    print(f"Name updated successfully: {old_name} to {new_name}")
+                                    print(f"Name updated successfully: {old_name} to{GREEN} {new_name}{RESET}\n")
                                     break
 
                     elif choise == "2":
@@ -203,7 +203,7 @@ def update_line():
                         if new_origin == "0":
                             continue
                         else:
-                            print(f"Origin updated successfully: {lines[line_name].origin} to {new_origin}")
+                            print(f"Origin updated successfully: {lines[line_name].origin} to{GREEN} {new_origin}{RESET}\n")
                             lines[line_name].origin = new_origin
 
                     elif choise == "3":
@@ -213,7 +213,7 @@ def update_line():
                             continue
                         else:
                             print(
-                                f"Destination updated successfully: {lines[line_name].destination} to {new_destination}")
+                                f"Destination updated successfully: {lines[line_name].destination} to{GREEN} {new_destination}{RESET}\n")
                             lines[line_name].destination = new_destination
 
                     elif choise == "4":
@@ -234,8 +234,8 @@ def update_line():
                                         new_stations.append(station)
                                         i += 1
                                     else:
-                                        print(f"{RED}this station is already exist !{RESET}")
-                            print(f"Stations updated successfully: {lines[line_name].stations} to {new_stations}")
+                                        print(f"{RED}This station is already exist !{RESET}")
+                            print(f"Stations updated successfully: {lines[line_name].stations} to{GREEN} {new_stations}{RESET}")
                             lines[line_name].count = new_count
                             lines[line_name].stations = new_stations
 
@@ -244,18 +244,18 @@ def update_line():
                     else:
                         print(f"{RED}select a number correctly !!{RESET}")
             else:
-                print(f"{RED}there no line with name {line_name}{RESET}\n")
+                print(f"{RED}There no line with name {line_name}{RESET}\n")
                 return update_line()
 
     elif choise == "1" and len(lines.keys()) == 0:
-        print(f"{RED}there is no line yet - go Add a line first !!{RESET}")
+        print(f"{RED}There is no line yet - go Add a line first !!{RESET}")
         return emp_panel()
 
     elif choise == "2":
         return emp_panel()
 
     else:
-        print(f"{RED}select carefully !!{RESET}")
+        print(f"{RED}Select carefully !!{RESET}")
         return update_line()
 
 
@@ -264,7 +264,7 @@ def remove_line():
         choice = input("Enter [1] for removing lines or enter [2] and back to main menu : ")
         if choice == "1":
             if len(lines.keys()) != 0:
-                print("\n---Removing Line---\n")
+                print(f"\n---{BLUE}Removing Line{RESET}---\n")
                 line_name = letter_please(f"[0] back {BLUE}|{RESET} Enter line name : ")
                 if line_name == "0":
                     continue
@@ -279,7 +279,7 @@ def remove_line():
                                     else:
                                         pass
                                 lines.pop(line_name)
-                                print(f"{line_name} removed successfully\n")
+                                print(f"{line_name} Removed successfully\n")
                                 return remove_line()
                             elif confirm == "no":
                                 return remove_line()
@@ -289,20 +289,21 @@ def remove_line():
                         print(f"{RED}There is no line with name {line_name} !!{RESET}")
 
             else:
-                print(f"{RED} there is no line yet!\n Add a line first {RESET}")
+                print(f"{RED}There is no line yet!\n Add a line first {RESET}")
                 return emp_panel()
         elif choice == "2":
+            print(f"{BLUE}\nEmployee Menu {RESET}\n")
             return emp_panel()
         else:
-            print(f"{RED}please enter 1 or 2 !!!{RESET} \n")
+            print(f"{RED}Please enter 1 or 2 !!!{RESET} \n")
 
 
 def show_lines():
     if len(lines.values()) != 0:
         for line in lines.values():
             print(line)
-        print("\n" * 2)
-        input(f"{BLUE}Press Enter to back main menu\n{RESET}")
+        print("\n")
+        input(f"{BLUE}Press Any key to back main menu\n{RESET}")
         return emp_panel()
     else:
         print(f"{RED}There is no line to show ! {RESET}")
@@ -317,9 +318,10 @@ def add_train():
         return emp_panel()
     else:
         pass
-    print("\n---Adding Train---\n")
+    print(f"\n---{BLUE}Adding Train{RESET}---\n")
     name = tname_please(f"[0] back {BLUE}|{RESET} Enter Train name : ")
     if name == "0":
+        print(f"{BLUE}\nEmployee Menu {RESET}\n")
         return emp_panel()
     else:
         pass
@@ -359,7 +361,7 @@ def add_train():
             if 0 <= star <= 5:
                 break
             else:
-                print(f"{RED}stars must be Digit between 0 - 5 !!! {RESET}\n")
+                print(f"{RED}Stars must be Digit between 0 - 5 !!! {RESET}\n")
     while True:
         ticket_price = number_please(
             f"Enter{RED} exit {RESET} and back to manu {BLUE}|{RESET} Enter Ticket_price like 100 - 200 -... : ")
@@ -385,15 +387,15 @@ def add_train():
     new_train = Train(name, move_line, speed, waiting_time, star, ticket_price, capacity, train_id)
     trains[f"{train_id}"] = new_train
     train_id += 1
-    print("new Train successfully added : \n", new_train, "\n")
+    print(f"new Train successfully added : \n{GREEN} new_train{RESET} \n")
     return emp_panel()
 
 
 def update_train():
-    choise = input("select [1] for update or select [2] for exit : ")
+    choise = input("Select [1] for update or Select [2] for exit : ")
 
     if choise == "1" and len(trains.keys()) != 0:
-
+        print("")
         while True:
             id_train = number_please(f"Enter {RED}exit{RESET} for back {BLUE}|{RESET} Enter Train ID: ")
             if id_train == "exit":
@@ -412,7 +414,7 @@ def update_train():
                         "5:stars\n"
                         "6:ticket price\n"
                         "7:capacity\n"
-                        "8:exit\n : ")
+                        "8:exit\n ==>    ")
 
                     if choise == "1":
                         new_name = tname_please(f"[0] back {BLUE}|{RESET} Enter Train name: ")
@@ -421,7 +423,7 @@ def update_train():
                             continue
 
                         print(
-                            f"Train name updated successfully: {trains[id_train].name} to {new_name}")
+                            f"Train name updated successfully: {trains[id_train].name} to{GREEN} {new_name}{RESET}\n")
 
                         trains[id_train].name = new_name
 
@@ -437,7 +439,7 @@ def update_train():
                                 print(f"{RED}There is no line with name: {new_line}{RESET}")
 
                             else:
-                                print(f"Train line updated successfully: {trains[id_train].moveline} to {new_line}")
+                                print(f"Train line updated successfully: {trains[id_train].moveline} to{GREEN} {new_line}{RESET}")
 
                                 trains[id_train].moveline = new_line
                                 break
@@ -454,10 +456,10 @@ def update_train():
 
                             elif new_speed > 300:
                                 print(
-                                    f"{RED}Speed must lower than 301 !!!{RESET}")
+                                    f"{RED}Speed must lower than 300 !!!{RESET}")
 
                             else:
-                                print(f"Speed updated successfully: {trains[id_train].speed} to {new_speed}")
+                                print(f"Speed updated successfully: {trains[id_train].speed} to{GREEN} {new_speed}{RESET}\n")
                                 trains[id_train].speed = new_speed
                                 break
 
@@ -469,7 +471,7 @@ def update_train():
                             continue
 
                         print(
-                            f"Waiting time updated successfully: {trains[id_train].waiting_time} to {new_waiting_time}")
+                            f"Waiting time updated successfully: {trains[id_train].waiting_time} to{GREEN} {new_waiting_time}{RESET}")
                         trains[id_train].waiting_time = new_waiting_time
 
                     elif choise == "5":
@@ -481,7 +483,7 @@ def update_train():
 
                             if 0 <= new_star <= 5:
 
-                                print(f"Stars updated successfully: {trains[id_train].stars} to {new_star}")
+                                print(f"Stars updated successfully: {trains[id_train].stars} to{GREEN} {new_star}{RESET}")
                                 trains[id_train].stars = new_star
                                 break
                             else:
@@ -503,7 +505,7 @@ def update_train():
 
                             else:
                                 print(
-                                    f"Ticket price updated successfully: {trains[id_train].ticket_price} to {new_ticket_price}")
+                                    f"Ticket price updated successfully: {trains[id_train].ticket_price} to{GREEN} {new_ticket_price}{RESET}")
 
                                 trains[id_train].ticket_price = new_ticket_price
                                 break
@@ -524,7 +526,7 @@ def update_train():
                                 print(f"{RED}Capacity must lower than 2001 !{RESET}")
 
                             else:
-                                print(f"Capacity updated successfully: {trains[id_train].capacity} to {new_capacity}")
+                                print(f"Capacity updated successfully: {trains[id_train].capacity} to{GREEN} {new_capacity}{RESET}")
 
                                 trains[id_train].capacity = new_capacity
                                 break
@@ -533,7 +535,7 @@ def update_train():
                         return update_train()
 
                     else:
-                        print(f"{RED}select a number correctly !!{RESET}")
+                        print(f"{RED}Select a number correctly !!{RESET}")
 
             else:
                 print(f"{RED}There is no Train with ID: {id_train}{RESET}")
@@ -544,10 +546,11 @@ def update_train():
         return emp_panel()
 
     elif choise == "2":
+        print(f"{BLUE}\nEmployee Menu {RESET}\n")
         return emp_panel()
 
     else:
-        print(f"{RED}select carefully !!{RESET}")
+        print(f"{RED}Select carefully !!{RESET}")
         return update_train()
 
 
@@ -556,7 +559,7 @@ def remove_train():
         choice = input("Enter [1] for removing Train or enter [2] and back to main menu : ")
         if choice == "1":
             if len(trains.keys()) != 0:
-                print("\n---Removing Train---\n")
+                print(f"\n---{BLUE}Removing Train{RESET}---\n")
                 id_train = number_please(
                     f"Enter {RED}exit{RESET} and back to main menu {BLUE}|{RESET} Enter Train ID: ")
                 if id_train == "exit":
@@ -568,7 +571,7 @@ def remove_train():
                             confirm = input(f"Are you sure to remove Train??\n {trains[id_train]} (yes/no):  ").lower()
                             if confirm == "yes":
                                 trains.pop(id_train)
-                                print(f"Train with ID: {id_train} removed successfully\n")
+                                print(f"Train with ID: {id_train}Rremoved successfully\n")
                                 return remove_train()
                             elif confirm == "no":
                                 return remove_train()
@@ -591,7 +594,8 @@ def show_trains():
         for train in trains.values():
             print(train)
         print("\n")
-        input(f"{BLUE}Press Enter to back main menu\n{RESET}")
+        input(f"{BLUE}Press Any key to back main menu\n{RESET}\n")
+        print(f"{BLUE}\nEmployee Menu {RESET}\n")
         return emp_panel()
     else:
         print(f"{RED}There is no Train to show ! {RESET}")
@@ -602,3 +606,4 @@ def show_trains():
 def main_menu():
     pass
 
+emp_panel()

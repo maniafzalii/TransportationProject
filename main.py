@@ -13,9 +13,15 @@ def main():
     manager_username="team5"
     manager_password="@team5"
     manager=Manager(manager_username,manager_password)
+
     print("\n-------------------------------------------")
     print("----- Welcome to Transportation Panel -----")
     print("-------------------------------------------\n")
+
+    print(f"{GREEN}-------------------------------------------")
+    print("----- Welcome to Transportation Panel -----")
+    print(f"-------------------------------------------{RESET}")
+
     while True:
         user_input_main = input(dedent("""
         ----- Choose Your Entrance Mode -----
@@ -34,10 +40,10 @@ def main():
             case "3":
                 traveler_panel()
             case "4":
-                print("----- GoodBye -----")
+                print(f"{GREEN}----- GoodBye -----{RESET}")
                 break
             case _:
-                print("----- Invalid Entrance Mode ------")
+                print(f"{RED}Invalid entrance mode.{RESET}")
 
 
 if __name__ == "__main__":

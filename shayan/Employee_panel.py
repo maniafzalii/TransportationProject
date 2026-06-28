@@ -387,7 +387,7 @@ def add_train():
     new_train = Train(name, move_line, speed, waiting_time, star, ticket_price, capacity, train_id)
     trains[f"{train_id}"] = new_train
     train_id += 1
-    print(f"new Train successfully added : \n{GREEN} new_train{RESET} \n")
+    print(f"new Train successfully added : \n{GREEN} {new_train}{RESET} \n")
     return emp_panel()
 
 

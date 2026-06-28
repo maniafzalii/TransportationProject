@@ -23,7 +23,7 @@ class Applicant:
         
                 
     def __repr__(self):
-        return f"{GREEN}username {self.user} , password {'*'* len(self.password)} {RESET}"
+        return f"{GREEN}{self.user}       {'*'* len(self.password)} {RESET}"
 
     #check validation
     #username and password must be str
@@ -42,6 +42,6 @@ class Applicant:
         pattern = r"^(?=.*[@&])(?=.*[0-9])(?=.*[a-zA-Z]).*$"
         if re.match(pattern, password):
            return True
-        raise ValueError(f"{REDE} Password must be combination of alphabet,digit and one of(@,&)!{RESET}")
+        raise ValueError(f"{RED} Password must be combination of alphabet,digit and one of(@,&)!{RESET}")
         
    

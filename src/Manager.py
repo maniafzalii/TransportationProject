@@ -2,6 +2,15 @@ from src.Applicant import Applicant
 from textwrap import dedent
 from src.Employee import Employee
 from shayan.Employee_panel import emp_panel
+
+
+
+BLUE = '\033[94m'
+RED = '\033[91m'
+GREEN = '\033[92m'
+RESET = '\033[0m'
+YELLOW = '\033[93m'
+
 #subclass of Applicant it has list of employees as its own attribute
 class Manager(Applicant):
 
@@ -15,18 +24,21 @@ class Manager(Applicant):
             print("----- To Enter as a Manager : Enter Username and Password -----")
             print("----- Press 0 to Exit")
             username=input("Username ").strip()
+            if username=="0":
+               print("----- Returning to previous menu -----")
+               return
             password=input("Password ").strip()
-            if username=="0" or password=="0":
+            if password=="0":
                print("----- Returning to previous menu -----")
                return
             try:
                 result=self.validate_entrance(username,password)
                 if result:
-                  print("----- Login Successful.Welcome Manager Panel -----")
+                  print(f"{BLUE}----- Login Successful.Welcome Manager Panel -----{RESET}")
                   manager_validated=True
                   self.execute_manager_panel()
                 else:
-                    print("----- Username or Password is Wrong -----")  
+                    print(f"{RED}----- Username or Password is Wrong -----{RESET}")  
                     while True:
                         user_input=input(dedent("""\
                         ----- Choose Your Next Action -----
@@ -41,13 +53,13 @@ class Manager(Applicant):
                             case _:
                               print("----- Invalid Action -----")
             except TypeError as ex:
-                print(f"----- Error : {ex} -----")     
+                print(f"{RED}----- Error : {ex} -----{RESET}")     
         
       
     #validate username and password with manager to allow entrance
     def validate_entrance(self,username,password):
         if not(isinstance(username,str)) or not(isinstance(password,str)):
-            raise TypeError("Username and Password must be String")
+            raise TypeError(f"{RED}Username and Password must be String !{RESET}")
         return self.user==username and self.password==password
         
     #Where manager can control employees
@@ -64,33 +76,71 @@ class Manager(Applicant):
             match user_input:
                 case "1":
                     print("----- Enter Employee Information -----")
+                    print("----- Press 0 to Exit")
                     username=input("Username ").strip()
+                    if(username=="0"):
+                        print("----- Returning to previous menu -----")
+                        continue
+                    if(len(username)==0):
+                        print(f"{RED}----- Username Can Not be Empty -----{RESET}")
+                        continue
+
                     password=input("Password ").strip()
+                    if(password=="0"):
+                        print("----- Returning to previous menu -----")
+                        continue
+                    if(len(password)==0):
+                        print(f"{RED}----- Password Can Not be Empty -----{RESET}")
+                        continue
                     name=input("Name ").strip()
+                    if(name=="0"):
+                        print("----- Returning to previous menu -----")
+                        continue
+                    if(len(name)==0):
+                        print(f"{RED}----- Name Can Not be Empty -----{RESET}")
+                        continue
                     family=input("Family ").strip()
+                    if(family=="0"):
+                        print("----- Returning to previous menu -----")
+                        continue
+                    if(len(family)==0):
+                        print(f"{RED}----- Family Can Not be Empty -----{RESET}")
+                        continue
                     email=input("Email ").strip()
+                    if(email=="0"):
+                        print("----- Returning to previous menu -----")
+                        continue
+                    if(len(email)==0):
+                        print(f"{RED}----- E-mail Can Not be Empty -----{RESET}")
+                        continue
                     try:
                         result=self.add_employee(username,password,name,family,email)
                         if result:
-                            print("----- New Employee Added -----")
+                            print(f"{BLUE}----- New Employee Added -----{RESET}")
                         else:
-                            print("----- New Employee Not Added due to Repitition -----")
+                            print(f"{RED}----- New Employee Not Added due to Repitition -----{RESET}")
                     except (ValueError,TypeError) as ex:
-                        print(f">>>>> Error : {ex}")
+                        print(f"{RED}>>>>> Error : {ex}{RESET}")
                 case "2":    
                     print("----- Enetr Username to Remove Employee -----")
                     username=input("Username ").strip()
+                    if(username=="0"):
+                        print("----- Returning to previous menu -----")
+                        continue
+                    if(len(username)==0):
+                        print(f"{RED}----- Username Can Not be Empty -----{RESET}")
+                        continue
                     try:
                         self.remove_employee(username)
                     except (ValueError,TypeError) as ex:
-                        print(f">>>>> Error : {ex}")  
+                        print(f"{RED}>>>>> Error : {ex}{RESET}")  
                 case "3":
                     self.show_employees()
                 case "4":
                     print("----- Exit Manager Panel -----")
                     ManagerMode=False   
                 case _:
-                    print("----- Invalid Managing Action -----")           
+                    print(f"----- Invalid Managing Action -----")           
       
 
     #firstly,create a new instance of employee if data is invalid raise error
@@ -110,21 +160,23 @@ class Manager(Applicant):
     #otherwise remove employee
     def remove_employee(self,username):
         if not isinstance(username,str):
-            raise TypeError("Username must be String")
+            raise TypeError(f"{RED}Username must be String !{RESET}")
         if not username in self.employees:
-             raise ValueError("Employeee Not Found") 
+             raise ValueError(f"{RED}Employeee Not Found {RESET}") 
         self.employees.pop(username)
+        print(f"{BLUE}----- Employee {username} Removed Successfully ----{RESET} ")
 
     #show list of employees 
     def show_employees(self):
 
         if len(self.employees)==0:
-            print("----- Employee List is Empty -----")
+            print(f"{YELLOW}----- Employee List is Empty -----{RESET}")
             return
-        print("---------- Employee List ----------")
+        print(f"{GREEN}---------- Employee List ----------{RESET}")
+        print(f"{GREEN}Username        Password         Name         Family           E-mail{RESET}")
         idx=1
         for value in self.employees.values():
-            print(f"{idx}. {value}")
+            print(f"{GREEN}{idx}. {value}{RESET}")
             idx+=1
 
     
@@ -136,11 +188,11 @@ class Manager(Applicant):
         if len(self.employees)==0:
             return True
         if newEmployee.user in self.employees:
-            print(f"Username {newEmployee.user} exist !")
+            print(f"{RED}Username {newEmployee.user} exist !{RESET}")
             return False
         for emp in self.employees.values():
             if emp.email==newEmployee.email:
-               print(f"Email {newEmployee.email} exist !")
+               print(f"{RED}Email {newEmployee.email} exist !{RESET}")
                return False
         return True
     
@@ -149,20 +201,24 @@ class Manager(Applicant):
         while not employee_validated:
             print("----- To Enter as an Employee : Enter Username and Password -----")
             print("----- Press 0 to Exit")
+        
             username=input("Username ").strip()
+            if(username=="0"):
+               print("----- Returning to previous menu -----")
+               return 
             password=input("Password ").strip()
-            if username=="0" or password=="0":
+            if  password=="0":
                print("----- Returning to previous menu -----")
                return
 
             try:
                 result=self.validate_employee(username,password)
                 if result:
-                   print("----- Login Successful.Welcome Employee Panel -----")
+                   print(f"{BLUE}----- Login Successful.Welcome Employee Panel -----{RESER}")
                    employee_validated=True
                    emp_panel()
                 else:
-                    print("----- Username or Password is Wrong -----")  
+                    print(f"{RED}----- Username or Password is Wrong -----{RESET}")  
                     while True:
                         user_input=input(dedent("""\
                         ----- Choose Your Next Action -----
@@ -177,13 +233,13 @@ class Manager(Applicant):
                             case _:
                               print("----- Invalid Action -----")
             except TypeError as ex:
-                print(f"----- Error : {ex} -----")     
+                print(f"{RED}----- Error : {ex} -----{RESET}")     
 
     #get username and password 
     # if employee is exist in list return true otherwise return false
     def validate_employee(self,username,password):
         if not(isinstance(username,str)) or not(isinstance(password,str)):
-            raise TypeError("Username and Password must be String")
+            raise TypeError(f"{RED}Username and Password must be String !{RESET}")
         for key,value in self.employees.items():
             if key==username and value.password==password:
                 return True
@@ -193,7 +249,7 @@ class Manager(Applicant):
     #get username and return employee from employee list
     def get_employee_by_username(self,username):
         if not isinstance(username,str):
-            raise TypeError("Username must be String")
+            raise TypeError(f"{RED}Username must be String !{RESET}")
         return self.employees[username] 
 
     #return list of employees

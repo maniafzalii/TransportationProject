@@ -1,5 +1,5 @@
 from src.Applicant import Applicant
-
+import re
 
 
 BLUE = '\033[94m'
@@ -27,7 +27,7 @@ class Employee(Applicant):
         return self.user==other.user and self.email==other.email
 
     def __repr__(self):
-        return super().__repr__()+f"{GREEN} , name {self.name} ,family {self.family} ,email {self.email} {RESET}"    
+        return super().__repr__()+f"{GREEN}        {self.name}        {self.family}        {self.email} {RESET}"    
     
      #check if email follows defines structure    
     @staticmethod
@@ -37,7 +37,7 @@ class Employee(Applicant):
         pattern = r"^[^@\s]+@[a-zA-Z]+\.[a-zA-Z]{2,}$"
         if re.match(pattern, email):
            return True
-        raise ValueError(f"{REDE} Email must follow format like: <<shiva@gmail.com>> {RESET}")
+        raise ValueError(f"{RED} Email must follow format like: <<shiva@gmail.com>> {RESET}")
 
             
     

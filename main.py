@@ -28,11 +28,7 @@ def main():
 
         match user_input_main:
             case "1":
-<<<<<<< HEAD
                 manager.enter_manager_panel()
-=======
-                print("test")
->>>>>>> db0790c24582b6c4599d2312af72e1ce8eada25a
             case "2":
                 manager.enter_employee_panel()
             case "3":

@@ -208,7 +208,7 @@ class Traveler:
                                         f'{GREEN} - [{datetime.now().strftime("%Y-%m-%d %H:%M")}]{RESET} Type: Shop | Amount: {final_price}T | Payment ID: {payment_id}')
                                     print(f"{BLUE}Ticket purchased successfully. Have a good trip ;){RESET}")
                                     return
-                                except IndexError or ValueError:
+                                except (IndexError, ValueError):
                                     final_price = int(train_to_buy.ticket_price) * int(
                                         traveler_input_buy_ticket_capacity)
                                     train_to_buy.capacity -= int(traveler_input_buy_ticket_capacity)

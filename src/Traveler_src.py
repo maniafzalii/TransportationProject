@@ -116,7 +116,7 @@ class Traveler:
                     print(f"{RED}cvv2 must be a 3-digit number.{RESET}")
                     continue
 
-                charge_password_input = input("Enter password: (6-digit number)").strip()
+                charge_password_input = input("Enter password(OTP): (6-digit number)").strip()
                 if charge_password_input == "0":
                     break
                 elif not charge_password_input.isdigit():

@@ -59,12 +59,12 @@ def letter_please(prompt):
 
             if value == "0":
                 return value
-            if not value.isalpha():
+            if not (value.isalnum() and any(c.isalpha() for c in value)):
                 raise ValueError
             return value
 
         except ValueError:
-            print(f"{RED}use a-z A-Z as a correct input !{RESET}\n")
+            print(f"{RED}Use letters or text-number combinations as a correct input !{RESET}\n")
 
 
 def number_please(prompt):
@@ -260,6 +260,7 @@ def update_line():
 
 
 def remove_line():
+    keys_to_remove = []
     while True:
         choice = input("Enter [1] for removing lines or enter [2] and back to main menu : ")
         if choice == "1":
@@ -273,11 +274,14 @@ def remove_line():
                         while True:
                             confirm = input(f"Are you sure to remove line??\n {lines[line_name]} (yes/no) : ").lower()
                             if confirm == "yes":
-                                for train in trains.values():
-                                    if train.moveline == line_name:
-                                        train.moveline = "Empty"
+                                for k,v in trains.items():
+                                    if v.moveline == line_name:
+                                        keys_to_remove.append(k)
                                     else:
                                         pass
+                                for k in keys_to_remove:
+                                    trains.pop(k, None)
+
                                 lines.pop(line_name)
                                 print(f"{line_name} Removed successfully\n")
                                 return remove_line()
@@ -605,3 +609,5 @@ def show_trains():
 
 def main_menu():
     pass
+
+emp_panel()

@@ -49,12 +49,12 @@ def letter_please(prompt):
 
             if value == "0":
                 return value
-            if not value.isalpha():
+            if not (value.isalnum() and any(c.isalpha() for c in value)):
                 raise ValueError
             return value
 
         except ValueError:
-            print(f"{RED}use a-z A-Z as a correct input !{RESET}\n")
+            print(f"{RED}Use letters or text-number combinations as a correct input !{RESET}\n")
 
 
 def number_please(prompt):

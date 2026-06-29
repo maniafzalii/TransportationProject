@@ -131,12 +131,13 @@ class Traveler:
 
 
     def buy_ticket(self):
-        print("Enter 0 anytime to return")
-        while True:
-            if not trains:
-                print(f"\n{YELLOW}No trains available.{RESET}")
-                return
+        if not trains:
+            print(f"\n{YELLOW}No trains available.{RESET}")
+            return
 
+        print("Enter 0 anytime to return")
+
+        while True:
             if self.balance == 0:
                 match input("Your wallet is empty! You wanna charge?(y/n) ").strip().lower():
                     case "y":
@@ -149,6 +150,7 @@ class Traveler:
                         continue
 
             available_trains_to_buy = []
+            print()
             for train in trains.values():
                 if train.capacity == 0 or train.moveline == "Empty":
                     continue
@@ -156,42 +158,71 @@ class Traveler:
                     available_trains_to_buy.append(train)
                     print(f'{YELLOW}{" " * (5 - train.stars)}{"*" * train.stars}{RESET}{BLUE} | Train ID: {train.id} | Train name: {train.name} | Ticket price(1x): {int(train.ticket_price)}{RESET}')
 
-            traveler_input_buy_ticket_id = input("Enter train ID to buy: ").strip()
-            if traveler_input_buy_ticket_id == "0":
-                return
-            elif trains[traveler_input_buy_ticket_id] in available_trains_to_buy:
-                train_to_buy = trains[traveler_input_buy_ticket_id]
+            while True:
+                traveler_input_buy_ticket_id = input("\nEnter train ID to buy: ").strip()
+                if traveler_input_buy_ticket_id == "0":
+                    return
+                elif not traveler_input_buy_ticket_id.isdigit():
+                    print(f"{RED}Enter a valid ID number.{RESET}")
+                    continue
+                try:
+                    if trains[traveler_input_buy_ticket_id] in available_trains_to_buy:
+                        train_to_buy = trains[traveler_input_buy_ticket_id]
+                    else:
+                        print(f"{RED}No trains available with this ID.{RESET}")
+                        continue
+                except KeyError:
+                    print(f"{RED}No trains available with this ID.{RESET}")
+                    continue
 
                 while True:
-                    traveler_input_buy_ticket_capacity = int(input("How many tickets you wanna buy? ").strip())
+                    traveler_input_buy_ticket_capacity = input("How many tickets you wanna buy? ").strip()
                     if traveler_input_buy_ticket_capacity == "0":
-                        break
-                    elif train_to_buy.capacity < traveler_input_buy_ticket_capacity:
-                        print(f"{RED}Not enough seats. only {train_to_buy.capacity} left.{RESET}")
-                    elif self.balance < (int(train_to_buy.ticket_price) * traveler_input_buy_ticket_capacity):
-                        print(f"{RED}Please charge your wallet {int(train_to_buy.ticket_price) * traveler_input_buy_ticket_capacity - self.balance}T at least.{RESET}")
                         return
+                    elif not traveler_input_buy_ticket_capacity.isdigit():
+                        print(f"{RED}Enter a number.{RESET}")
+                        continue
+                    elif int(train_to_buy.capacity) < int(traveler_input_buy_ticket_capacity):
+                        print(f"{RED}Not enough seats. only {int(train_to_buy.capacity)} left.{RESET}")
+                    elif self.balance < (int(train_to_buy.ticket_price) * int(traveler_input_buy_ticket_capacity)):
+                        print(f"{RED}Please charge your wallet {int(train_to_buy.ticket_price) * int(traveler_input_buy_ticket_capacity) - self.balance}T at least.{RESET}")
+                        return
+
                     # buying process start
                     else:
                         while True:
-                            print(f'{YELLOW}{" " * (5 - train_to_buy.stars)}{"*" * train_to_buy.stars}{RESET}{BLUE} - Train name: {train_to_buy.name} | Seats: {traveler_input_buy_ticket_capacity}x | Ticket price(1x): {int(train_to_buy.ticket_price)} | Train ID: {train_to_buy.id}{RESET}')
+                            print(f'{YELLOW}{" " * (5 - train_to_buy.stars)}{"*" * train_to_buy.stars}{RESET}{BLUE} - Train name: {train_to_buy.name} | Seats: {int(traveler_input_buy_ticket_capacity)}x | Ticket price(1x): {int(train_to_buy.ticket_price)} | Train ID: {train_to_buy.id}{RESET}')
                             final_check = input("Confirm purchase?(y/n) ").strip().lower()
                             if final_check == "n":
                                 return
+
                             elif final_check == "y":
-                                final_price = int(train_to_buy.ticket_price) * traveler_input_buy_ticket_capacity
-                                train_to_buy.capacity -= traveler_input_buy_ticket_capacity
-                                self.tickets.append(f'{BLUE} - [{datetime.now().strftime("%Y-%m-%d %H:%M")}]{RESET} Train name: {train_to_buy.name} | Seats: {traveler_input_buy_ticket_capacity}x | Ticket price(x1): {int(train_to_buy.ticket_price)} | Train stars: {train_to_buy.stars} | Train ID: {train_to_buy.id}')
-                                self.balance -= final_price
-                                payment_id = generate_payment_id(final_price, self.cards[0])
-                                self.transactions.append(f'{GREEN} - [{datetime.now().strftime("%Y-%m-%d %H-%M")}]{RESET} Type: Shop | Amount: {final_price}T | Payment ID: {payment_id}')
-                                print(f"{BLUE}Ticket purchased successfully. Have a good trip ;){RESET}")
-                                return
+                                try:
+                                    final_price = int(train_to_buy.ticket_price) * int(traveler_input_buy_ticket_capacity)
+                                    train_to_buy.capacity -= int(traveler_input_buy_ticket_capacity)
+                                    self.tickets.append(
+                                        f'{BLUE} - [{datetime.now().strftime("%Y-%m-%d %H:%M")}]{RESET} {YELLOW}{" " * (5 - train_to_buy.stars)}{"*" * train_to_buy.stars}{RESET}{BLUE} - Train name: {train_to_buy.name} | Seats: {int(traveler_input_buy_ticket_capacity)}x | Ticket price(1x): {int(train_to_buy.ticket_price)} | Train ID: {train_to_buy.id}{RESET}')
+                                    self.balance -= final_price
+                                    payment_id = generate_payment_id(final_price, self.cards[0])
+                                    self.transactions.append(
+                                        f'{GREEN} - [{datetime.now().strftime("%Y-%m-%d %H:%M")}]{RESET} Type: Shop | Amount: {final_price}T | Payment ID: {payment_id}')
+                                    print(f"{BLUE}Ticket purchased successfully. Have a good trip ;){RESET}")
+                                    return
+                                except IndexError or ValueError:
+                                    final_price = int(train_to_buy.ticket_price) * int(
+                                        traveler_input_buy_ticket_capacity)
+                                    train_to_buy.capacity -= int(traveler_input_buy_ticket_capacity)
+                                    self.tickets.append(
+                                        f'{BLUE} - [{datetime.now().strftime("%Y-%m-%d %H:%M")}]{RESET} {YELLOW}{" " * (5 - train_to_buy.stars)}{"*" * train_to_buy.stars}{RESET}{BLUE} - Train name: {train_to_buy.name} | Seats: {int(traveler_input_buy_ticket_capacity)}x | Ticket price(1x): {int(train_to_buy.ticket_price)} | Train ID: {train_to_buy.id}{RESET}')
+                                    self.balance -= final_price
+                                    payment_id = generate_payment_id(final_price, self.cards[0])
+                                    self.transactions.append(
+                                        f'{GREEN} - [{datetime.now().strftime("%Y-%m-%d %H:%M")}]{RESET} Type: Shop | Amount: {final_price}T | Payment ID: {payment_id}')
+                                    print(f"{BLUE}Ticket purchased successfully. Have a good trip ;){RESET}")
+                                    return
+
                             else:
                                 print(f"{RED}Invalid input{RESET}")
-
-            else:
-                print(f"{RED}Train not found.{RESET}")
 
 
     def edit_name(self):
